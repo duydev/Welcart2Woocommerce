@@ -1,14 +1,19 @@
 <?php
 
 require_once './wp-load.php';
+require_once( USCES_PLUGIN_DIR . "/classes/memberList.class.php" );
 
-$s = new Welcart_Export();
-$d = new Woocommerce_Export();
-
+//$s = new Welcart_Export();
+//$d = new Woocommerce_Export();
+/*
 $d->clean_terms( $d->get_category_taxonomy() );
 $d->clean_terms( $d->get_tag_taxonomy() );
 $d->import_terms_from_string( $s->export_category_to_string() );
 $d->import_terms_from_string( $s->export_tag_to_string() );
+*/
+
+//$s->export_user_to_string();
+
 
 
 class Welcart_Export {
@@ -65,6 +70,17 @@ class Welcart_Export {
 
 		return json_encode( $output, JSON_PRETTY_PRINT );
 	}
+
+    public function export_user_to_string() {
+		global $wpdb;
+
+		$table_user = $wpdb->prefix.'usces_member';
+		$query = "SELECT * FROM $table_user";
+		$result = $wpdb->get_results( $query, ARRAY_A );
+		if( $result && ! is_wp_error( $result ) ) {
+			var_dump( $result );
+		}
+    }
 
 }
 
